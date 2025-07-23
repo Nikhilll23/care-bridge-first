@@ -1,9 +1,9 @@
 import { NextResponse } from "next/server";
 import prisma from "@/lib/db";
-import bcrypt from "bcrypt";
+import bcrypt from "bcryptjs";
 import { z } from "zod";
 
-export const userSchema = z.object({
+const userSchema = z.object({
   email: z.string().email({ message: "Invalid email format" }),
   username: z
     .string()
@@ -45,7 +45,8 @@ export async function POST(req: Request) {
     });
 
     // storing pass separete to avoid sending it to the client
-    const { password: newUserPassword, ...user } = newUser;
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const { password: _, ...user } = newUser;
 
     return NextResponse.json(
       { user: user, message: "User created successfully" },

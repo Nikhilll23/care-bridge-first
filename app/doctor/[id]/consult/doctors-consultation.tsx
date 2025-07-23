@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useToast } from "@/hooks/use-toast";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
@@ -48,10 +48,10 @@ export function ConsultingDialog({
 
   const form = useForm<FormValues>({
     defaultValues: {
-      symptoms: "No Symptoms",
-      diagnosis: "No Diagnosis",
-      prescription: "No Prescription",
-      notes: "No Notes",
+      symptoms: "",
+      diagnosis: "",
+      prescription: "",
+      notes: "",
     },
   });
 
@@ -121,27 +121,10 @@ export function ConsultingDialog({
                     name="symptoms"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Blood Pressure</FormLabel>
+                        <FormLabel>Symptoms</FormLabel>
                         <FormControl>
                           <Textarea
-                            placeholder="e.g. 120/80"
-                            {...field}
-                            className="h-24"
-                          />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                  <FormField
-                    control={form.control}
-                    name="symptoms"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Heart Rate</FormLabel>
-                        <FormControl>
-                          <Textarea
-                            placeholder="e.g. 72 bpm"
+                            placeholder="e.g. Fever, Cough"
                             {...field}
                             className="h-24"
                           />
@@ -155,10 +138,10 @@ export function ConsultingDialog({
                     name="diagnosis"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Temperature</FormLabel>
+                        <FormLabel>Diagnosis</FormLabel>
                         <FormControl>
                           <Textarea
-                            placeholder="e.g. 98.6 °F"
+                            placeholder="Hypertension - Controlled"
                             {...field}
                             className="h-24"
                           />
@@ -172,10 +155,27 @@ export function ConsultingDialog({
                     name="prescription"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>O2 Saturation</FormLabel>
+                        <FormLabel>Prescription</FormLabel>
                         <FormControl>
                           <Textarea
-                            placeholder="e.g. 98%"
+                            placeholder="Lisinopril 10mg"
+                            {...field}
+                            className="h-24"
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={form.control}
+                    name="notes"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Extra Notes</FormLabel>
+                        <FormControl>
+                          <Textarea
+                            placeholder="e.g. Follow up in 2 weeks"
                             {...field}
                             className="h-24"
                           />

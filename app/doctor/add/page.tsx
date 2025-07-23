@@ -45,7 +45,8 @@ export default function AddDoctorPage() {
       if (!res.ok) throw new Error("Failed to add doctor");
 
       router.push("/doctors");
-    } catch (error) {
+    } catch {
+      // Error handling could be added here
     } finally {
       setLoading(false);
     }

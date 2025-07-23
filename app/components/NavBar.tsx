@@ -7,9 +7,7 @@ import {
   Users,
   UserRound,
   Stethoscope,
-  CalendarClock,
   ClipboardList,
-  FileText,
   Home,
   Menu,
   Activity, // Add this import for the logo icon
@@ -24,7 +22,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
-import { useSession, signIn, signOut } from "next-auth/react";
+import { useSession, signOut } from "next-auth/react";
 
 interface NavItem {
   title: string;

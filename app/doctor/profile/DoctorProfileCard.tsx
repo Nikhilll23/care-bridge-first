@@ -17,13 +17,11 @@ import {
   GraduationCap,
   Building,
   DollarSign,
-  CheckCircle,
-  XCircle,
   CalendarCheck,
   CalendarX,
   User, // Added for generic profile icon
 } from "lucide-react";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"; // Optional: Add Avatar component
+import { Avatar, AvatarFallback } from "@/components/ui/avatar"; // Optional: Add Avatar component
 import { Doctor } from "@prisma/client";
 
 // Helper function to format currency

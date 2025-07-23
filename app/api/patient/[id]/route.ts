@@ -5,11 +5,12 @@ import prisma from "@/lib/db";
 
 export async function GET(
   request: NextRequest,
-  { params }: { params: { id: string } },
+  { params }: { params: Promise<{ id: string }> },
 ) {
   try {
+    const resolvedParams = await params;
     // Validate and parse the appointment ID
-    const appointmentId = parseInt(params.id, 10);
+    const appointmentId = parseInt(resolvedParams.id, 10);
     if (isNaN(appointmentId)) {
       return NextResponse.json(
         { error: "Invalid appointment ID format" },

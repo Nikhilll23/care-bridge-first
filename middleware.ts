@@ -13,9 +13,8 @@ export const config = {
   matcher: [
     "/",
     "/dashboard",
-    "/patients/:path*",
-    "/doctors/:path*",
-    "/reception/:path*",
-    "/((?!signin|register|api|_next/static|_next/image|favicon.ico).*)",
+    "/patient/:path*",
+    "/doctor/:path*",
+    "/((?!signin|signup|api|_next/static|_next/image|favicon.ico).*)",
   ],
 };

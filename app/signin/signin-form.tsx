@@ -173,7 +173,7 @@ export function LoginForm() {
           <p className="text-sm text-muted-foreground">
             Already have an account?{" "}
             <a
-              href="/api/auth/signin"
+              href="/signin"
               className="font-semibold text-primary transition-colors hover:text-primary/80"
             >
               Sign in

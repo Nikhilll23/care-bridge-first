@@ -38,7 +38,7 @@ export async function GET(request: NextRequest) {
 }
 
 // Define the schema for patient data validation
-export const patientSchema = z.object({
+const patientSchema = z.object({
   firstName: z.string().min(1, { message: "First name is required" }),
   lastName: z.string().min(1, { message: "Last name is required" }),
   email: z.string().email({ message: "Invalid email format" }),

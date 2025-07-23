@@ -2,7 +2,7 @@ import { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import { PrismaAdapter } from "@next-auth/prisma-adapter";
 import prisma from "./db";
-import bcrypt from "bcrypt";
+import bcrypt from "bcryptjs";
 
 import { User } from "next-auth"; // Ensure this is the correct library for the User type
 
@@ -13,7 +13,7 @@ interface ExtendedUser extends User {
 
 export const authOptions: NextAuthOptions = {
   // Configure one or more authentication providers
-  adapter: PrismaAdapter(prisma),
+  // adapter: PrismaAdapter(prisma), // Disabled for JWT strategy
   secret: process.env.NEXTAUTH_SECRET,
   session: {
     strategy: "jwt",

@@ -16,30 +16,13 @@ const mockDoctor: Doctor = {
   experience: 15,
   designation: "Senior Consultant",
   department: "Cardiology Department",
-  consultationFee: new Decimal("250.00"), // Or "250.00" or 250 depending on source
+  consultationFee: 250.00, // Changed from Decimal to Float for SQLite
   isAvailable: true,
   createdAt: new Date(),
   updatedAt: new Date(),
   // appointments: [] // Not used in the card directly
 };
 
-const mockDoctorUnavailable: Doctor = {
-  // ... other details same as above ...
-  id: 2,
-  firstName: "Bob",
-  lastName: "Jones",
-  email: "bob.jones@clinic.org",
-  phone: null, // Example of optional field being null
-  specialization: "Neurology",
-  qualification: "MBBS, DM (Neurology)",
-  experience: 8,
-  designation: "Consultant",
-  department: "Neurology Unit",
-  consultationFee: new Decimal("200.50"), // Or "200.50" or 200.5
-  isAvailable: false,
-  createdAt: new Date(),
-  updatedAt: new Date(),
-};
 
 export default function DoctorDetailPage() {
   // In a real scenario, fetch doctor data based on params

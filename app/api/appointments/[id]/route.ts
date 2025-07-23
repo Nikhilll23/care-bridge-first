@@ -6,7 +6,7 @@ import { authOptions } from "@/lib/auth";
 // UPDATE appointment by ID (PUT)
 export async function PUT(
   request: Request,
-  { params }: { params: { id: string } },
+  { params }: { params: Promise<{ id: string }> },
 ) {
   try {
     const session = await getServerSession(authOptions);
@@ -14,7 +14,8 @@ export async function PUT(
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
-    const appointmentId = parseInt(params.id);
+    const resolvedParams = await params;
+    const appointmentId = parseInt(resolvedParams.id);
     if (isNaN(appointmentId)) {
       return NextResponse.json({ error: "Invalid ID" }, { status: 400 });
     }

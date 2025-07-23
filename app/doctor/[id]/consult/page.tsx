@@ -14,7 +14,7 @@ import { AIPatientSummary } from "./AIPatientSummary";
 import { ConsultingDialog } from "./doctors-consultation";
 import { useParams } from "next/navigation";
 
-export default function ConsultPage({ params }: { params: { id: string } }) {
+export default function ConsultPage() {
   const [patientData, setPatientData] = useState<any>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
@@ -50,7 +50,7 @@ export default function ConsultPage({ params }: { params: { id: string } }) {
     };
 
     fetchPatientData();
-  }, [routeParams.id]);
+  }, [AppointmentId]);
 
   if (isLoading) {
     return <p>Loading...</p>;
