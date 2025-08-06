@@ -50,7 +50,7 @@ export async function GET(
     // Fetch the most recent appointment for vitals
     const recentAppointment = await prisma.appointment.findFirst({
       where: { patientId },
-      orderBy: { date: "asc" }, // Get the latest appointment
+      orderBy: { date: "desc" }, // Get the latest appointment
     });
 
     const recentVitals = recentAppointment

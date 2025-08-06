@@ -98,7 +98,14 @@ export function AIPatientSummary({
         }
 
         const data = await response.json();
-        setSummary(data.response);
+        
+        // Handle both normal responses and fallback responses
+        let summaryText = data.response;
+        if (data.warning) {
+          summaryText = `⚠️ ${data.warning}\n\n${data.response}`;
+        }
+        
+        setSummary(summaryText);
       } catch (error) {
         console.error("Error generating summary:", error);
         setSummary(

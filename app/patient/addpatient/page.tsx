@@ -117,22 +117,12 @@ const AddPatientPage = () => {
       }
 
       console.log("Patient added successfully:", result);
-      setSuccessMessage("Patient added successfully!");
+      setSuccessMessage("Patient added successfully! Redirecting to dashboard...");
 
-      // Reset form after a short delay
+      // Redirect to dashboard after a short delay
       setTimeout(() => {
-        setFormData({
-          firstName: "",
-          lastName: "",
-          email: "",
-          phone: "",
-          dateOfBirth: "",
-          gender: "" as "Male" | "Female" | "Other",
-          address: "",
-        });
-        setSuccessMessage(null);
-        // Optionally redirect: router.push('/patients'); // Or wherever appropriate
-      }, 2000);
+        router.push('/patient'); // Redirect to patient dashboard
+      }, 1500);
     } catch (error: any) {
       console.error("Error adding patient:", error);
       setApiError(error.message || "An unexpected error occurred.");
@@ -148,12 +138,12 @@ const AddPatientPage = () => {
 
   return (
     // Center the card on the page
-    <div className="flex items-center justify-center px-4 py-12 sm:px-6 lg:px-8">
-      <Card className="w-full max-w-3xl">
+<div className="flex items-center justify-center min-h-screen bg-gray-100 px-4 py-12 sm:px-6 lg:px-8">
+<Card className="w-full max-w-3xl shadow-lg rounded-lg hover:shadow-xl transition-shadow">
         {" "}
         {/* Max width for the card */}
         <CardHeader>
-          <CardTitle className="text-2xl font-bold">Add New Patient</CardTitle>
+<CardTitle className="text-2xl font-bold text-blue-600">Add New Patient</CardTitle>
           <CardDescription>
             Enter the patient's details below. Required fields are marked with
             *.
@@ -327,7 +317,7 @@ const AddPatientPage = () => {
             )}
           </CardContent>
           <CardFooter>
-            <Button type="submit" className="w-full" disabled={isLoading}>
+<Button type="submit" className="w-full bg-blue-600 text-white py-3 rounded-md hover:bg-blue-700 transition-colors" disabled={isLoading}>
               {isLoading ? "Adding Patient..." : "Add Patient"}
             </Button>
           </CardFooter>

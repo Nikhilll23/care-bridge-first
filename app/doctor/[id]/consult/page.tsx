@@ -17,6 +17,7 @@ import { useParams } from "next/navigation";
 export default function ConsultPage() {
   const [patientData, setPatientData] = useState<any>(null);
   const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
 
   const routeParams = useParams(); // ✅ grab the params from the URL
@@ -37,13 +38,16 @@ export default function ConsultPage() {
         });
 
         if (!response.ok) {
-          throw new Error("Failed to fetch patient data");
+          const errorData = await response.json();
+          throw new Error(errorData.error || "Failed to fetch patient data");
         }
 
         const data = await response.json();
         setPatientData(data);
+        setError(null);
       } catch (error) {
         console.error("Error fetching patient data:", error);
+        setError(error instanceof Error ? error.message : "An unknown error occurred");
       } finally {
         setIsLoading(false);
       }
@@ -53,11 +57,52 @@ export default function ConsultPage() {
   }, [AppointmentId]);
 
   if (isLoading) {
-    return <p>Loading...</p>;
+    return (
+      <div className="container mx-auto max-w-7xl p-6">
+        <div className="flex items-center justify-center">
+          <p className="text-lg">Loading patient data...</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="container mx-auto max-w-7xl p-6">
+        <Card className="border-red-200 bg-red-50">
+          <CardHeader>
+            <CardTitle className="text-red-800">Error Loading Patient Data</CardTitle>
+            <CardDescription className="text-red-600">
+              {error}
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <Button 
+              onClick={() => window.location.reload()}
+              variant="outline"
+              className="border-red-300 text-red-700 hover:bg-red-100"
+            >
+              Try Again
+            </Button>
+          </CardContent>
+        </Card>
+      </div>
+    );
   }
 
   if (!patientData) {
-    return <p>No patient data found.</p>;
+    return (
+      <div className="container mx-auto max-w-7xl p-6">
+        <Card>
+          <CardHeader>
+            <CardTitle>No Patient Data</CardTitle>
+            <CardDescription>
+              No patient data found for this appointment.
+            </CardDescription>
+          </CardHeader>
+        </Card>
+      </div>
+    );
   }
 
   return (

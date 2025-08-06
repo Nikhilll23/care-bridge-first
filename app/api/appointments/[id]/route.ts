@@ -20,7 +20,22 @@ export async function PUT(
       return NextResponse.json({ error: "Invalid ID" }, { status: 400 });
     }
 
-    const data = await request.json();
+    let data;
+    try {
+      data = await request.json();
+    } catch (parseError) {
+      console.error("Error parsing request body:", parseError);
+      return NextResponse.json({ error: "Invalid request data" }, { status: 400 });
+    }
+
+    // Check if appointment exists
+    const existingAppointment = await prisma.appointment.findUnique({
+      where: { id: appointmentId },
+    });
+
+    if (!existingAppointment) {
+      return NextResponse.json({ error: "Appointment not found" }, { status: 404 });
+    }
 
     const updatedAppointment = await prisma.appointment.update({
       where: { id: appointmentId },
@@ -29,7 +44,7 @@ export async function PUT(
         diagnosis: data.diagnosis || null,
         prescription: data.prescription || null,
         notes: data.notes || null,
-        status: "Completed", // Assuming you want to set the status to completed
+        status: "completed", // Set status to completed after consultation
       },
     });
 

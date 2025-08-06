@@ -46,10 +46,14 @@ export default function DoctorTimeline() {
           });
 
           if (!doctorResponse.ok) {
-            throw new Error("Failed to fetch doctor info");
+            console.error(`Doctor API Error: ${doctorResponse.status} - ${doctorResponse.statusText}`);
+            const errorData = await doctorResponse.text();
+            console.error('Error Response:', errorData);
+            throw new Error(`Failed to fetch doctor info: ${doctorResponse.status}`);
           }
 
           const doctorInfo = await doctorResponse.json();
+          console.log('Doctor Info:', doctorInfo);
           setDoctorInfo(doctorInfo);
 
           // Fetch appointments for the doctor

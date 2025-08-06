@@ -5,10 +5,14 @@ import SessionProviderWrapper from "@/lib/provider";
 import { getServerSession } from "next-auth";
 import { ThemeProvider } from "@/lib/theme-provider";
 import { Toaster } from "@/components/ui/toaster";
+import ConditionalNavBar from "./components/ConditionalNavBar";
 
 export const metadata: Metadata = {
-  title: "Automed",
+  title: "CareBridge",
   description: "Hospital Managment Systems",
+  icons: {
+    icon: "/logo.png",
+  },
 };
 
 export default async function RootLayout({
@@ -19,10 +23,10 @@ export default async function RootLayout({
   const session = await getServerSession();
   return (
     <html lang="en" suppressHydrationWarning>
-      <body>
-        <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+    <body suppressHydrationWarning>
+        <ThemeProvider>
           <SessionProviderWrapper session={session}>
-            <NavBar />
+            <ConditionalNavBar />
             <main className="p-5">{children}</main>
           </SessionProviderWrapper>
           <Toaster />

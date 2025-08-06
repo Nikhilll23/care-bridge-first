@@ -9,6 +9,11 @@ export default {
   ],
   theme: {
   	extend: {
+  		fontFamily: {
+  			sans: ['Inter', 'system-ui', 'sans-serif'],
+  			heading: ['Poppins', 'system-ui', 'sans-serif'],
+  			mono: ['JetBrains Mono', 'monospace'],
+  		},
   		colors: {
   			background: 'hsl(var(--background))',
   			foreground: 'hsl(var(--foreground))',
@@ -43,13 +48,25 @@ export default {
   			border: 'hsl(var(--border))',
   			input: 'hsl(var(--input))',
   			ring: 'hsl(var(--ring))',
-  			chart: {
-  				'1': 'hsl(var(--chart-1))',
-  				'2': 'hsl(var(--chart-2))',
-  				'3': 'hsl(var(--chart-3))',
-  				'4': 'hsl(var(--chart-4))',
-  				'5': 'hsl(var(--chart-5))'
-  			}
+			chart: {
+				'1': 'hsl(var(--chart-1))',
+				'2': 'hsl(var(--chart-2))',
+				'3': 'hsl(var(--chart-3))',
+				'4': 'hsl(var(--chart-4))',
+				'5': 'hsl(var(--chart-5))'
+			},
+			// Custom semantic colors
+			mint: 'hsl(var(--mint-light))',
+			sky: 'hsl(var(--sky-blue))',
+			navy: 'hsl(var(--navy-blue))',
+			pure: 'hsl(var(--pure-white))',
+			plum: 'hsl(var(--plum-purple))',
+			// Semantic color aliases
+			success: 'hsl(var(--success))',
+			info: 'hsl(var(--info))',
+			brand: 'hsl(var(--brand))',
+			neutral: 'hsl(var(--neutral))',
+			highlight: 'hsl(var(--highlight))'
   		},
   		borderRadius: {
   			lg: 'var(--radius)',

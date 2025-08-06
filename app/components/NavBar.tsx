@@ -1,6 +1,7 @@
 "use client";
 
 import * as React from "react";
+import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import {
@@ -10,7 +11,6 @@ import {
   ClipboardList,
   Home,
   Menu,
-  Activity, // Add this import for the logo icon
 } from "lucide-react";
 import { ModeToggle } from "@/components/themetoggle";
 import { cn } from "@/lib/utils";
@@ -112,9 +112,14 @@ function NavBar() {
         {/* Logo and Brand */}
         <div className="ml-4 mr-4 flex items-center">
           <Link href="/" className="flex items-center space-x-2">
-            <Activity className="h-6 w-6 text-primary" />
+            <Image
+              src="/logo.png"
+              alt="CareBridge Logo"
+              width={28}
+              height={28}
+            />
             <span className="hidden text-xl font-bold md:inline-block">
-              Automed
+              CareBridge
             </span>
           </Link>
         </div>

@@ -58,6 +58,17 @@ export function ConsultingDialog({
   const onSubmit = async (data: FormValues) => {
     setIsSubmitting(true);
 
+    if (!appointmentId) {
+      toast({
+        title: "Error",
+        description: "Invalid appointment ID.",
+        variant: "destructive",
+        duration: 3000,
+      });
+      setIsSubmitting(false);
+      return;
+    }
+
     try {
       const response = await fetch(
         `/api/appointments/${appointmentId}`, // ✅ Use the appointmentId from the route
@@ -69,7 +80,9 @@ export function ConsultingDialog({
       );
 
       if (!response.ok) {
-        throw new Error("Failed to update consultation");
+        const errorData = await response.json().catch(() => ({ error: "Unknown error" }));
+        const errorMessage = errorData.error || `Server error: ${response.status}`;
+        throw new Error(errorMessage);
       }
 
       const updated = await response.json();
@@ -88,11 +101,12 @@ export function ConsultingDialog({
       router.push("/doctor/timelines");
     } catch (error) {
       console.error("Error updating consultation:", error);
+      const errorMessage = error instanceof Error ? error.message : "Failed to upload consultation";
       toast({
         title: "Error",
-        description: "Failed to upload consultation",
+        description: errorMessage,
         variant: "destructive",
-        duration: 3000,
+        duration: 5000,
       });
     } finally {
       setIsSubmitting(false);
@@ -104,9 +118,9 @@ export function ConsultingDialog({
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="max-h-[90vh] max-w-3xl overflow-y-auto">
         <DialogHeader>
-          <DialogTitle>Book Appointment for</DialogTitle>
+          <DialogTitle>Consultation Details</DialogTitle>
           <DialogDescription>
-            Fill in the details below to schedule a new appointment.
+            Fill in the consultation details after examining the patient.
           </DialogDescription>
         </DialogHeader>
 
@@ -114,7 +128,7 @@ export function ConsultingDialog({
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
             <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
               <div className="md:col-span-2">
-                <h3 className="mb-2 text-lg font-medium">Vital Signs</h3>
+                <h3 className="mb-2 text-lg font-medium">Consultation Information</h3>
                 <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
                   <FormField
                     control={form.control}

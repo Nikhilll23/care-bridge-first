@@ -4,30 +4,40 @@ import { z } from "zod";
 
 export async function GET(request: NextRequest) {
   try {
-    // Extract phone number from query parameters
+    // Extract query parameters
     const searchParams = request.nextUrl.searchParams;
     const phone = searchParams.get("phone");
+    const all = searchParams.get("all");
 
-    if (!phone) {
+    let patients;
+
+    if (all === "true") {
+      // Fetch all patients
+      patients = await prisma.patient.findMany({
+        orderBy: {
+          createdAt: 'desc', // Show newest patients first
+        },
+      });
+    } else if (phone) {
+      // Fetch patient by phone number
+      patients = await prisma.patient.findMany({
+        where: {
+          phone,
+        },
+      });
+    } else {
       return NextResponse.json(
-        { error: "Phone number is required" },
+        { error: "Phone number is required or use ?all=true to fetch all patients" },
         { status: 400 },
       );
     }
 
-    // Fetch patient by phone number from the database
-    const patient = await prisma.patient.findMany({
-      where: {
-        phone,
-      },
-    });
-
-    if (!patient) {
-      return NextResponse.json({ error: "Patient not found" }, { status: 404 });
+    if (!patients || patients.length === 0) {
+      return NextResponse.json({ error: "No patients found" }, { status: 404 });
     }
 
-    // Return the patient as JSON
-    return NextResponse.json({ patient });
+    // Return the patients as JSON
+    return NextResponse.json({ patient: patients });
   } catch (error) {
     console.error("Error fetching patients:", error);
     return NextResponse.json(

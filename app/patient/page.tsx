@@ -61,6 +61,33 @@ const PatientList = () => {
     }
   };
 
+  const handleViewAllPatients = async () => {
+    setIsLoading(true);
+    setError(null);
+    setSearchQuery(""); // Clear search query when viewing all patients
+
+    try {
+      const response = await fetch(`/api/patient?all=true`, {
+        method: "GET",
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || `Error: ${response.status}`);
+      }
+
+      const data = await response.json();
+      const fetchedPatients: Patient[] = data.patient || [];
+      setPatients(fetchedPatients);
+    } catch (err: any) {
+      console.error("Error fetching all patients:", err);
+      setError(err.message || "Failed to fetch patients.");
+      setPatients([]);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   const handleDialogClose = (open: boolean) => {
     setIsDialogOpen(open);
     if (!open) {
@@ -73,20 +100,35 @@ const PatientList = () => {
 
   return (
     <div className="flex flex-col justify-between px-4 py-6 sm:px-10">
-      <div className="flex flex-col space-y-4 pb-8 sm:flex-row sm:space-x-4 sm:space-y-0">
-        <Input
-          type="text"
-          placeholder="Search For Patient By Phone Number"
-          value={searchQuery}
-          onChange={(e) => setSearchQuery(e.target.value)}
-          className="flex-grow"
-        />
-        <Button
-          onClick={handleSearchByPhoneNumber}
-          disabled={isLoading || !searchQuery.trim()}
-        >
-          {isLoading ? "Searching..." : "Find Patient"}
-        </Button>
+      <div className="flex flex-col space-y-4 pb-8">
+        {/* Search Section */}
+        <div className="flex flex-col space-y-4 sm:flex-row sm:space-x-4 sm:space-y-0">
+          <Input
+            type="text"
+            placeholder="Search For Patient By Phone Number"
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            className="flex-grow"
+          />
+          <Button
+            onClick={handleSearchByPhoneNumber}
+            disabled={isLoading || !searchQuery.trim()}
+          >
+            {isLoading ? "Searching..." : "Find Patient"}
+          </Button>
+        </div>
+        
+        {/* View All Patients Button */}
+        <div className="flex justify-center">
+          <Button
+            onClick={handleViewAllPatients}
+            disabled={isLoading}
+            variant="outline"
+            className="px-8"
+          >
+            {isLoading ? "Loading..." : "View All Patients"}
+          </Button>
+        </div>
       </div>
 
       <div className="pb-4">
